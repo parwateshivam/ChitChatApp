@@ -7,18 +7,23 @@ import {
   registerUserThunk
 } from './user.thunk'
 
-export const userSlice = createSlice({
+const userSlice = createSlice({
   name: 'user',
 
   initialState: {
     isAuthenticated: false,
     userProfile: null,
     otherUsers: null,
+    selectedUser: null,
     buttonLoading: false,
     screenLoading: true
   },
 
-  reducers: {},
+  reducers: {
+    setSelectedUser: (state, action) => {
+      state.selectedUser = action.payload
+    }
+  },
 
   extraReducers: (builder) => {
 
@@ -89,5 +94,7 @@ export const userSlice = createSlice({
 
   }
 })
+
+export const { setSelectedUser } = userSlice.actions
 
 export default userSlice.reducer

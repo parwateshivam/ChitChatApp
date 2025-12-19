@@ -4,6 +4,7 @@ import User from './User'
 import { useDispatch, useSelector } from 'react-redux'
 import { getOtherUsersThunk, logoutUserThunk } from '../reduxStore/userSlice/user.thunk'
 import { useNavigate } from 'react-router-dom'
+import profilePic from '../assets/profile.jpg'
 
 const UserList = () => {
 
@@ -22,12 +23,12 @@ const UserList = () => {
   }
 
   return (
-    <div className="w-[30%] min-w-[280px] h-screen border-r border-gray-800 flex flex-col bg-gray-900 text-white">
+    <div className="w-[30%] min-w-[250px] h-screen border-r border-gray-800 flex flex-col bg-gray-900 text-white">
 
       {/* Header */}
       <div className="p-4 border-b border-gray-800">
         <h1 className="text-2xl font-bold text-primary tracking-wide">
-          Chitchat
+          ChitchatApp
         </h1>
         <p className="text-xs text-gray-400">Chat with friends</p>
       </div>
@@ -49,7 +50,7 @@ const UserList = () => {
         {
           otherUsers?.length > 0 ? (
             otherUsers.map((user) => (
-              <User key={user._id} user={user} />
+              <User key={user._id} user={user} profilePic={profilePic} />
             ))
           ) : (
             <p className="text-center text-gray-500 text-sm mt-6">

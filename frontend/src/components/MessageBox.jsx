@@ -1,6 +1,12 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 
-const MessageBox = ({ message, isOwnMessage }) => {
+const MessageBox = ({ msg }) => {
+
+  const userProfile = useSelector((state) => state.user.userProfile)
+
+  const isOwnMessage = msg?.senderId === userProfile?._id
+
   return (
     <div className={`chat ${isOwnMessage ? 'chat-end' : 'chat-start'}`}>
 
@@ -9,7 +15,7 @@ const MessageBox = ({ message, isOwnMessage }) => {
         <div className="chat-image avatar">
           <div className="w-9 rounded-full">
             <img
-              src="https://img.daisyui.com/images/profile/demo/kenobee@192.webp"
+              src={msg?.senderAvatar || "https://img.daisyui.com/images/profile/demo/kenobee@192.webp"}
               alt="user"
             />
           </div>
@@ -18,9 +24,11 @@ const MessageBox = ({ message, isOwnMessage }) => {
 
       {/* Header */}
       <div className="chat-header text-xs text-gray-400 mb-1">
-        {isOwnMessage ? 'You' : message?.senderName}
+        {isOwnMessage ? 'You' : msg?.senderName}
         <time className="ml-2 opacity-60">
-          {message?.time || '12:45'}
+          {msg?.createdAt
+            ? new Date(msg.createdAt).toLocaleTimeString()
+            : '12:45'}
         </time>
       </div>
 
@@ -32,7 +40,7 @@ const MessageBox = ({ message, isOwnMessage }) => {
             : 'bg-gray-800 text-gray-100'}
         `}
       >
-        {message?.text || 'You were the Chosen One!'}
+        {msg?.message}
       </div>
 
       {/* Footer */}
