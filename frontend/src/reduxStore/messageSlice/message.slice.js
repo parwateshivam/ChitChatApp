@@ -4,11 +4,15 @@ import { getMessageThunk, sendMessageThunk } from "./message.thunk";
 const messageSlice = createSlice({
   name: "message",
   initialState: {
-    messages: [],
+    messages: null,
     buttonLoading: false,
-    screenLoading: true
+    screenLoading: false
   },
-  reducers: {},
+  reducers: {
+    clearMessages: (state) => {
+      state.messages = [];
+    }
+  },
   extraReducers: (builder) => {
 
     // SEND MESSAGE
@@ -17,6 +21,8 @@ const messageSlice = createSlice({
         state.buttonLoading = true;
       })
       .addCase(sendMessageThunk.fulfilled, (state, action) => {
+        const oldMessages = state.messages ?? [];
+        state.messages = [...oldMessages, action.payload?.responseData];
         state.buttonLoading = false;
       })
       .addCase(sendMessageThunk.rejected, (state) => {
@@ -30,7 +36,7 @@ const messageSlice = createSlice({
       })
       .addCase(getMessageThunk.fulfilled, (state, action) => {
         state.screenLoading = false;
-        state.messages = action?.payload?.responseData?.messages;
+        state.messages = action.payload?.responseData?.messages
       })
       .addCase(getMessageThunk.rejected, (state) => {
         state.screenLoading = false;
@@ -38,4 +44,5 @@ const messageSlice = createSlice({
   }
 });
 
+export const { clearMessages } = messageSlice.actions;
 export default messageSlice.reducer;

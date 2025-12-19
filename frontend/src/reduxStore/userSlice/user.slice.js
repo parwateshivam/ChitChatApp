@@ -71,7 +71,7 @@ const userSlice = createSlice({
     builder.addCase(getUserProfileThunk.pending, () => { })
     builder.addCase(getUserProfileThunk.fulfilled, (state, action) => {
       state.isAuthenticated = true
-      state.userProfile = action.payload.responseData.user
+      state.userProfile = action.payload?.responseData
       state.screenLoading = false
     })
     builder.addCase(getUserProfileThunk.rejected, (state) => {

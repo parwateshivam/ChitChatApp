@@ -53,9 +53,11 @@ const ChatBox = () => {
 
           {/* Messages */}
           <div className="flex-1 p-4 overflow-y-auto space-y-3">
-            {messages.map((msg) => (
-              <MessageBox key={msg._id} msg={msg} />
-            ))}
+            {
+              messages.map((msg) => {
+                return <MessageBox key={msg?._id} msg={msg} />
+              })
+            }
           </div>
 
           {/* Input */}
