@@ -39,6 +39,7 @@ const ChatBox = () => {
 
   function handleSubmit() {
     dispatch(sendMessageThunk(messageData))
+    messageData.message = ""
   }
 
   return (

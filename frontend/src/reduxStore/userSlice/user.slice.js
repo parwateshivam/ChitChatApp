@@ -14,13 +14,14 @@ const userSlice = createSlice({
     isAuthenticated: false,
     userProfile: null,
     otherUsers: null,
-    selectedUser: null,
+    selectedUser: JSON.parse(localStorage.getItem("selectedUser")),
     buttonLoading: false,
     screenLoading: true
   },
 
   reducers: {
     setSelectedUser: (state, action) => {
+      localStorage.setItem("selectedUser", JSON.stringify(action.payload))
       state.selectedUser = action.payload
     }
   },
@@ -60,8 +61,11 @@ const userSlice = createSlice({
     builder.addCase(logoutUserThunk.fulfilled, (state) => {
       state.isAuthenticated = false
       state.userProfile = null
+      state.selectedUser = null
+      state.otherUsers = null
       state.buttonLoading = false
       state.screenLoading = false
+      localStorage.clear()
     })
     builder.addCase(logoutUserThunk.rejected, (state) => {
       state.buttonLoading = false

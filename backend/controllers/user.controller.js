@@ -4,6 +4,15 @@ import { User } from "../models/user.model.js"
 import { asyncHandler } from "../utilities/asyncHandler.utility.js"
 import { errorHandler } from "../utilities/errorHandler.utility.js"
 
+function getRandomAvatar(gender, username) {
+  if (gender === "male") {
+    return `https://avatar.iran.liara.run/public/boy?username=${username}`;
+  } else {
+    return `https://avatar.iran.liara.run/public/girl?username=${username}`;
+  }
+}
+
+
 export const handleRegisterUser = asyncHandler(async (req, res, next) => {
   const { fullName, username, password, gender } = req.body
 
@@ -18,11 +27,7 @@ export const handleRegisterUser = asyncHandler(async (req, res, next) => {
 
   const hashed = await bcrypt.hash(password, 10)
 
-  let name = fullName
-
-  name = name.replace(" ", "")
-
-  const avatar = `https://avatar.iran.liara.run/username?username=${name}`
+  let avatar = getRandomAvatar(gender, username)
 
   const newUser = await User.create({
     fullName,

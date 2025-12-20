@@ -24,7 +24,7 @@ const User = ({ user, profilePic }) => {
       < div className="avatar online" >
         <div className="w-12 rounded-full ring ring-primary ring-offset-2 ring-offset-gray-900">
           <img
-            src={profilePic}
+            src={user?.avatar || profilePic}
           />
         </div>
       </div >

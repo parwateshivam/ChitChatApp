@@ -15,15 +15,14 @@ const UserList = () => {
     dispatch(getOtherUsersThunk())
   }, [dispatch])
 
-  const { otherUsers } = useSelector((state) => state.user)
+  const { otherUsers, userProfile } = useSelector((state) => state.user)
 
   function handleLogout() {
     dispatch(logoutUserThunk())
-    navigate('/')
   }
 
   return (
-    <div className="w-[30%] min-w-[250px] h-screen border-r border-gray-800 flex flex-col bg-gray-900 text-white">
+    <div className="w-[30%] min-w-[300px] h-screen border-r border-gray-800 flex flex-col bg-gray-900 text-white">
 
       {/* Header */}
       <div className="p-4 border-b border-gray-800">
@@ -65,11 +64,11 @@ const UserList = () => {
         <div className="flex items-center gap-3">
           <div className="avatar online">
             <div className="w-10 rounded-full ring ring-primary ring-offset-2 ring-offset-gray-900">
-              <img src="https://img.daisyui.com/images/profile/demo/spiderperson@192.webp" />
+              <img src={userProfile?.avatar} />
             </div>
           </div>
           <div className="text-sm">
-            <p className="font-semibold">You</p>
+            <p className="font-semibold">{userProfile?.username}</p>
             <p className="text-xs text-gray-400">Online</p>
           </div>
         </div>
