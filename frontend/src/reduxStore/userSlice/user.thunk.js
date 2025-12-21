@@ -56,6 +56,7 @@ export const getUserProfileThunk = createAsyncThunk("user/get-profile", async (_
       "http://localhost:5000/api/auth/get-profile",
       { withCredentials: true }
     )
+    console.log(response.data)
     return response.data
   } catch (err) {
     const errorMessage = err.response.data.message

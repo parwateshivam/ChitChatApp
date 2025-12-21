@@ -9,8 +9,9 @@ const messageSlice = createSlice({
     screenLoading: false
   },
   reducers: {
-    clearMessages: (state) => {
-      state.messages = [];
+    setNewMessage: (state, action) => {
+      const oldMessages = state.messages
+      state.messages = [...oldMessages, action.payload]
     }
   },
   extraReducers: (builder) => {
@@ -44,5 +45,5 @@ const messageSlice = createSlice({
   }
 });
 
-export const { clearMessages } = messageSlice.actions;
+export const { setNewMessage } = messageSlice.actions;
 export default messageSlice.reducer;

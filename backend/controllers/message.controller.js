@@ -3,6 +3,7 @@ import { Conversation } from "../models/conversation.model.js"
 import { Message } from "../models/message.model.js"
 import { asyncHandler } from "../utilities/asyncHandler.utility.js"
 import { errorHandler } from "../utilities/errorHandler.utility.js"
+import { getSocketId, io } from "../socketConfig/socket.js"
 
 export const handleSendMessage = asyncHandler(async (req, res, next) => {
   const senderId = req.user._id
@@ -37,6 +38,9 @@ export const handleSendMessage = asyncHandler(async (req, res, next) => {
   // 5️⃣ Push message into conversation
   conversation.messages.push(newMessage._id)
   await conversation.save()
+
+  const socketId = getSocketId(receiverId)
+  io.to(socketId).emit("newMessage", newMessage)
 
   // 6️⃣ Response
   res.status(201).json({

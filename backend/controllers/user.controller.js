@@ -12,7 +12,6 @@ function getRandomAvatar(gender, username) {
   }
 }
 
-
 export const handleRegisterUser = asyncHandler(async (req, res, next) => {
   const { fullName, username, password, gender } = req.body
 
