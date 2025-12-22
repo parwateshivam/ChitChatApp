@@ -1,21 +1,32 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FaSearch } from "react-icons/fa"
 import User from './User'
 import { useDispatch, useSelector } from 'react-redux'
 import { getOtherUsersThunk, logoutUserThunk } from '../reduxStore/userSlice/user.thunk'
-import { useNavigate } from 'react-router-dom'
 import profilePic from '../assets/profile.jpg'
 
 const UserList = () => {
 
   const dispatch = useDispatch()
-  const navigate = useNavigate()
+  const [searchValue, setSearchValue] = useState('')
+  const { otherUsers, userProfile } = useSelector((state) => state.user)
+  const [users, setUsers] = useState([])
 
   useEffect(() => {
     dispatch(getOtherUsersThunk())
   }, [dispatch])
 
-  const { otherUsers, userProfile } = useSelector((state) => state.user)
+  useEffect(() => {
+    if (!searchValue) {
+      setUsers(otherUsers)
+    } else {
+      setUsers(otherUsers.filter((user) => {
+        return (
+          user.fullName.toLowerCase().includes(searchValue.toLocaleLowerCase())
+        )
+      }))
+    }
+  }, [searchValue, otherUsers])
 
   function handleLogout() {
     dispatch(logoutUserThunk())
@@ -40,6 +51,7 @@ const UserList = () => {
             type="search"
             className="grow text-sm bg-transparent focus:outline-none"
             placeholder="Search users..."
+            onChange={(e) => setSearchValue(e.target.value)}
           />
         </label>
       </div>
@@ -47,8 +59,8 @@ const UserList = () => {
       {/* User List */}
       <div className="flex-1 px-3 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-700">
         {
-          otherUsers?.length > 0 ? (
-            otherUsers.map((user) => (
+          users?.length > 0 ? (
+            users.map((user) => (
               <User key={user._id} user={user} profilePic={profilePic} />
             ))
           ) : (
@@ -62,14 +74,13 @@ const UserList = () => {
       {/* Footer */}
       <div className="p-3 border-t border-gray-800 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="avatar online">
+          <div className="avatar avatar-online">
             <div className="w-10 rounded-full ring ring-primary ring-offset-2 ring-offset-gray-900">
               <img src={userProfile?.avatar} />
             </div>
           </div>
           <div className="text-sm">
             <p className="font-semibold">{userProfile?.username}</p>
-            <p className="text-xs text-gray-400">Online</p>
           </div>
         </div>
 

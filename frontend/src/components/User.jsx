@@ -21,9 +21,9 @@ const User = ({ user, profilePic }) => {
     ${selectedUser?._id === user?._id ? 'bg-gray-800' : ''}`}>
 
       {/* Avatar */}
-      < div className={`avatar ${isOnline ? 'avatar-online' : 'avatar-offline'}`} >
-        <div className="w-12 rounded-full border">
-          <img src={user?.avatar || profilePic} />
+      < div className={`avatar ${isOnline ? 'avatar-online' : ''}`} >
+        <div className="w-10 rounded-full ring ring-primary ring-offset-2 ring-offset-gray-900">
+          <img src={user?.avatar} />
         </div>
       </div >
 
