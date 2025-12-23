@@ -28,6 +28,35 @@ io.on("connection", (socket) => {
 
   io.emit("onlineUsers", Object.keys(userSocketMap))
 
+  socket.on("call-user", ({ to, offer }) => {
+    console.log("backend received call offer")
+
+    const targetedUserSocketId = userSocketMap[to]
+    if (targetedUserSocketId) {
+      io.to(targetedUserSocketId).emit("incoming-call", {
+        from: userId,
+        offer
+      })
+    }
+  })
+
+  // Receiver sends answer
+  socket.on("answer-call", ({ to, answer }) => {
+    const targetSocketId = userSocketMap[to]
+    if (targetSocketId) {
+      io.to(targetSocketId).emit("call-accepted", { answer })
+    }
+  })
+
+  // ICE candidate exchange
+  socket.on("ice-candidate", ({ to, candidate }) => {
+    const targetSocketId = userSocketMap[to]
+    if (targetSocketId) {
+      io.to(targetSocketId).emit("ice-candidate", { candidate })
+    }
+  })
+  // ========================================================
+
   socket.on("disconnect", () => {
     console.log("User disconnected:", socket.id)
     delete userSocketMap[userId]
