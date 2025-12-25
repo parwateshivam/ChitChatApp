@@ -170,7 +170,7 @@ const ChatBox = () => {
           {/* HEADER */}
           <div className="p-4 border-b border-gray-800 flex justify-between items-center">
             <User user={selectedUser} />
-            <FaVideo className="cursor-pointer" size={22} onClick={startCall} />
+            <FaVideo className="cursor-pointer text-success" size={30} onClick={startCall} />
           </div>
 
           {/* VIDEO CALL MODAL */}
@@ -217,15 +217,15 @@ const ChatBox = () => {
                 onChange={handleChange}
                 placeholder="Type a message..."
               />
-              <button onClick={handleSubmit} className="btn btn-success">
-                <IoIosSend size={18} />
+              <button onClick={handleSubmit} className="btn btn-success bg-success px-3 rounded-full">
+                <IoIosSend size={16} />
               </button>
             </div>
           </div>
 
         </div>
       ) : (
-        <div className="flex items-center justify-center h-screen text-gray-400">
+        <div className="flex items-center justify-center h-screen w-full text-gray-400 text-2xl">
           Select user to chat
         </div>
       )}

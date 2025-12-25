@@ -8,7 +8,7 @@ const Register = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  const { isAuthenticated } = useSelector((state) => state.user)
+  const { isAuthenticated, buttonLoading } = useSelector((state) => state.user)
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -105,7 +105,9 @@ const Register = () => {
           onClick={handleSubmit}
           className="btn btn-primary w-full mb-3 bg-primary"
         >
-          Register
+          {
+            buttonLoading ? "Creating...." : "Create Account"
+          }
         </button>
 
         {/* Footer */}
