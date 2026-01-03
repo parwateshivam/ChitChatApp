@@ -5,14 +5,22 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { connectSocket, setOnlineUsers } from '../reduxStore/socketSlice/socket.slice'
 import { setNewMessage } from '../reduxStore/messageSlice/message.slice'
+import { useState } from 'react'
+import UserProfilePage from '../components/UserProfilePage'
 
 const ChatPage = () => {
 
   const dispatch = useDispatch()
 
+  const [openProfile, setOpenProfile] = useState(false)
+
   const { isAuthenticated, userProfile } = useSelector((state) => state.user)
 
   const { socket } = useSelector((state) => state.socket)
+
+  const handleOpenProfilePage = () => {
+    setOpenProfile(!openProfile)
+  }
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -38,9 +46,10 @@ const ChatPage = () => {
   }, [socket])
 
   return (
-    <div className='flex'>
-      <UserList />
+    <div className={`grid ${openProfile ? "grid-cols-3" : "grid-cols-2"}`}>
+      <UserList handleOpenProfilePage={handleOpenProfilePage} />
       <ChatBox />
+      {openProfile ? <UserProfilePage /> : <></>}
     </div>
   )
 }

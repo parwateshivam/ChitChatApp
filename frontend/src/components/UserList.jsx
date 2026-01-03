@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getOtherUsersThunk, logoutUserThunk } from '../reduxStore/userSlice/user.thunk'
 import profilePic from '../assets/profile.jpg'
 
-const UserList = () => {
+const UserList = ({ handleOpenProfilePage }) => {
 
   const dispatch = useDispatch()
   const [searchValue, setSearchValue] = useState('')
@@ -33,7 +33,7 @@ const UserList = () => {
   }
 
   return (
-    <div className="w-[30%] min-w-[300px] h-screen border-r border-gray-800 flex flex-col bg-gray-900 text-white">
+    <div className="h-screen border-r border-gray-800 flex flex-col bg-gray-900 text-white">
 
       {/* Header */}
       <div className="p-4 border-b border-gray-800">
@@ -72,8 +72,12 @@ const UserList = () => {
       </div>
 
       {/* Footer */}
-      <div className="p-3 border-t border-gray-800 flex items-center justify-between">
-        <div className="flex items-center gap-3">
+      <div
+        className="p-3 border-t border-gray-800 flex items-center justify-between">
+        <div
+          className="flex items-center gap-3 cursor-pointer"
+          onClick={() => { handleOpenProfilePage() }}
+        >
           <div className="avatar avatar-online">
             <div className="w-10 rounded-full ring ring-primary ring-offset-2 ring-offset-gray-900">
               <img src={userProfile?.avatar} />

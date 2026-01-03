@@ -9,13 +9,11 @@ import { messageRouter } from './routes/message.router.js'
 
 connectDB()
 
-const corsOption = {
+app.use(cors({
   origin: "http://localhost:5173",
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
-}
-
-app.use(cors(corsOption))
+}))
 app.use(express.json())
 app.use(cookieParser())
 
