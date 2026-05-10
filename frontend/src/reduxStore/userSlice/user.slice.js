@@ -1,0 +1,120 @@
+import { createSlice } from '@reduxjs/toolkit'
+import {
+  deleteAccountThunk,
+  getOtherUsersThunk,
+  getUserProfileThunk,
+  loginUserThunk,
+  logoutUserThunk,
+  registerUserThunk
+} from './user.thunk'
+
+const userSlice = createSlice({
+  name: 'user',
+
+  initialState: {
+    isAuthenticated: false,
+    userProfile: null,
+    otherUsers: null,
+    selectedUser: JSON.parse(localStorage.getItem("selectedUser")),
+    buttonLoading: false,
+    screenLoading: true
+  },
+
+  reducers: {
+    setSelectedUser: (state, action) => {
+      localStorage.setItem("selectedUser", JSON.stringify(action.payload))
+      state.selectedUser = action.payload
+    }
+  },
+
+  extraReducers: (builder) => {
+
+    /* LOGIN */
+    builder.addCase(loginUserThunk.pending, (state) => {
+      state.buttonLoading = true
+    })
+    builder.addCase(loginUserThunk.fulfilled, (state, action) => {
+      state.isAuthenticated = true
+      state.userProfile = action.payload.responseData.user
+      state.buttonLoading = false
+    })
+    builder.addCase(loginUserThunk.rejected, (state) => {
+      state.buttonLoading = false
+    })
+
+    /* REGISTER */
+    builder.addCase(registerUserThunk.pending, (state) => {
+      state.buttonLoading = true
+    })
+    builder.addCase(registerUserThunk.fulfilled, (state, action) => {
+      state.isAuthenticated = true
+      state.userProfile = action.payload.responseData.user
+      state.buttonLoading = false
+    })
+    builder.addCase(registerUserThunk.rejected, (state) => {
+      state.buttonLoading = false
+    })
+
+    /* LOGOUT */
+    builder.addCase(logoutUserThunk.pending, (state) => {
+      state.buttonLoading = true
+    })
+    builder.addCase(logoutUserThunk.fulfilled, (state) => {
+      state.isAuthenticated = false
+      state.userProfile = null
+      state.selectedUser = null
+      state.otherUsers = null
+      state.buttonLoading = false
+      state.screenLoading = false
+      localStorage.clear()
+    })
+    builder.addCase(logoutUserThunk.rejected, (state) => {
+      state.buttonLoading = false
+    })
+
+    /* GET PROFILE */
+    builder.addCase(getUserProfileThunk.pending, () => { })
+    builder.addCase(getUserProfileThunk.fulfilled, (state, action) => {
+      state.isAuthenticated = true
+      state.userProfile = action.payload?.responseData
+      state.screenLoading = false
+    })
+    builder.addCase(getUserProfileThunk.rejected, (state) => {
+      state.isAuthenticated = false
+      state.userProfile = null
+      state.screenLoading = false
+    })
+
+    // GET OTHER USERS
+    builder.addCase(getOtherUsersThunk.pending, (state, action) => {
+      state.screenLoading = true;
+    });
+    builder.addCase(getOtherUsersThunk.fulfilled, (state, action) => {
+      state.screenLoading = false;
+      state.otherUsers = action.payload?.responseData;
+    });
+    builder.addCase(getOtherUsersThunk.rejected, (state, action) => {
+      state.screenLoading = false;
+    });
+
+    // DELETE ACCOUNT
+    builder.addCase(deleteAccountThunk.pending, (state) => {
+      state.buttonLoading = true;
+    });
+    builder.addCase(deleteAccountThunk.fulfilled, (state) => {
+      state.isAuthenticated = false;
+      state.userProfile = null;
+      state.selectedUser = null;
+      state.otherUsers = null;
+      state.buttonLoading = false;
+      localStorage.clear();
+    });
+    builder.addCase(deleteAccountThunk.rejected, (state) => {
+      state.buttonLoading = false;
+    });
+  }
+})
+
+export const { setSelectedUser } = userSlice.actions
+
+export default userSlice.reducer
