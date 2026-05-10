@@ -9,7 +9,7 @@ export const sendMessageThunk = createAsyncThunk(
         return thunkAPI.rejectWithValue("Invalid message data")
       }
       const response = await axios.post(
-        `http://localhost:5000/api/message/send/${data.receiverId}`,
+        `https://chitchatapp-ifdl.onrender.com/api/message/send/${data.receiverId}`,
         { message: data.message },
         { withCredentials: true }
       )
@@ -27,7 +27,7 @@ export const getMessageThunk = createAsyncThunk(
   async ({ receiverId }, thunkAPI) => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/message/get-message/${receiverId}`,
+        `https://chitchatapp-ifdl.onrender.com/api/message/get-message/${receiverId}`,
         { withCredentials: true }
       );
       return response.data;
