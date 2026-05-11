@@ -1,6 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
+const host = import.meta.env.VITE_API_URL;
+
 export const sendMessageThunk = createAsyncThunk(
   "message/send-message",
   async (data, thunkAPI) => {
@@ -9,7 +11,7 @@ export const sendMessageThunk = createAsyncThunk(
         return thunkAPI.rejectWithValue("Invalid message data")
       }
       const response = await axios.post(
-        `https://chitchatapp-ifdl.onrender.com/api/message/send/${data.receiverId}`,
+        `${host}/message/send/${data.receiverId}`,
         { message: data.message },
         { withCredentials: true }
       )
@@ -27,7 +29,7 @@ export const getMessageThunk = createAsyncThunk(
   async ({ receiverId }, thunkAPI) => {
     try {
       const response = await axios.get(
-        `https://chitchatapp-ifdl.onrender.com/api/message/get-message/${receiverId}`,
+        `${host}/message/get-message/${receiverId}`,
         { withCredentials: true }
       );
       return response.data;

@@ -2,10 +2,12 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from 'axios'
 import toast from 'react-hot-toast'
 
+const host = import.meta.env.VITE_API_URL;
+
 export const loginUserThunk = createAsyncThunk("user/login", async (loginData, thunkAPI) => {
   try {
     const response = await axios.post(
-      "https://chitchatapp-ifdl.onrender.com/api/auth/login",
+      `${host}/login`,
       loginData,
       { withCredentials: true }
     )
@@ -21,7 +23,7 @@ export const loginUserThunk = createAsyncThunk("user/login", async (loginData, t
 export const registerUserThunk = createAsyncThunk("user/register", async (registerData, thunkAPI) => {
   try {
     const response = await axios.post(
-      "https://chitchatapp-ifdl.onrender.com/api/auth/register",
+      `${host}/register`,
       registerData,
       { withCredentials: true }
     )
@@ -37,7 +39,7 @@ export const registerUserThunk = createAsyncThunk("user/register", async (regist
 export const logoutUserThunk = createAsyncThunk("user/logout", async (_, thunkAPI) => {
   try {
     const response = await axios.post(
-      "https://chitchatapp-ifdl.onrender.com/api/auth/logout",
+      `${host}/logout`,
       {},
       { withCredentials: true }
     )
@@ -53,7 +55,7 @@ export const logoutUserThunk = createAsyncThunk("user/logout", async (_, thunkAP
 export const getUserProfileThunk = createAsyncThunk("user/get-profile", async (_, thunkAPI) => {
   try {
     const response = await axios.get(
-      "https://chitchatapp-ifdl.onrender.com/api/auth/get-profile",
+      `${host}/get-profile`,
       {},
       { withCredentials: true }
     )
@@ -67,7 +69,7 @@ export const getUserProfileThunk = createAsyncThunk("user/get-profile", async (_
 export const getOtherUsersThunk = createAsyncThunk('user/get-other-users', async (_, thunkAPI) => {
   try {
     const response = await axios.get(
-      "https://chitchatapp-ifdl.onrender.com/api/auth/get-other-users",
+      `${host}/get-other-users`,
       {},
       { withCredentials: true }
     )
@@ -81,7 +83,7 @@ export const getOtherUsersThunk = createAsyncThunk('user/get-other-users', async
 export const deleteAccountThunk = createAsyncThunk('user/delete-account', async (_, thunkAPI) => {
   try {
     const response = await axios.post(
-      "https://chitchatapp-ifdl.onrender.com/api/auth/delete-account",
+      `${host}/delete-account`,
       {},
       { withCredentials: true }
     )
