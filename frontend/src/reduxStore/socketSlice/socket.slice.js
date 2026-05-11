@@ -12,7 +12,7 @@ const socketSlice = createSlice({
   reducers: {
     connectSocket: (state, action) => {
       const socket = io(
-        "http://localhost:5000", {
+        "https://chitchatapp-ifdl.onrender.com", {
         query: {
           userId: action.payload,
         }
